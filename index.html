@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agent 實戰入門｜115.10.02 課程報名</title>
+<style>
+  :root{
+    --ink:#14213d; --accent:#1d4ed8; --accent2:#f59e0b; --soft:#eef2ff; --muted:#5b6478; --line:#dbe1ee;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#e9ecf3;font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;color:var(--ink)}
+  .poster{width:794px;max-width:100%;margin:0 auto;background:#fff;position:relative;overflow:hidden;display:flex;flex-direction:column}
+  .hero{background:linear-gradient(135deg,#14213d 0%,#1d4ed8 100%);color:#fff;padding:44px 48px 36px}
+  .kicker{display:inline-block;font-size:14px;letter-spacing:.2em;background:var(--accent2);color:#14213d;font-weight:700;padding:4px 12px;border-radius:999px;margin-bottom:16px}
+  h1{font-size:46px;line-height:1.15;font-weight:900;letter-spacing:.02em}
+  h1 small{display:block;font-size:20px;font-weight:500;opacity:.9;margin-top:10px;letter-spacing:.05em}
+  .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:20px 48px;background:var(--soft);border-bottom:1px solid var(--line)}
+  .meta div{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid var(--line)}
+  .meta b{display:block;font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:4px}
+  .meta span{font-size:18px;font-weight:700}
+  .body{display:grid;grid-template-columns:1fr 250px;gap:28px;padding:26px 48px 0;flex:1}
+  h2{font-size:18px;font-weight:800;color:var(--accent);letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  h2::before{content:"";width:6px;height:20px;background:var(--accent2);border-radius:3px}
+  .ratio{font-size:12px;color:var(--muted);font-weight:500;margin-left:auto}
+  ol{list-style:none;counter-reset:n}
+  ol li{counter-increment:n;display:grid;grid-template-columns:34px 1fr;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:start}
+  ol li::before{content:counter(n,decimal-leading-zero);font-weight:900;color:var(--accent2);font-size:20px;line-height:1.1}
+  ol li strong{display:block;font-size:16px;margin-bottom:2px}
+  ol li em{font-style:normal;font-size:13px;color:var(--muted);line-height:1.5}
+  .side{display:flex;flex-direction:column;gap:18px}
+  .card{background:var(--soft);border-radius:14px;padding:18px 18px 16px;border:1px solid var(--line)}
+  .card h3{font-size:14px;color:var(--muted);letter-spacing:.15em;margin-bottom:8px}
+  .lecthead{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .photo{width:78px;height:78px;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 8px rgba(20,33,61,.2);flex:none}
+  .lect{font-size:24px;font-weight:900;line-height:1.2}
+  .lect small{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-top:2px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .tags span{font-size:11.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 8px;color:var(--ink)}
+  .card p{font-size:13px;line-height:1.6;color:var(--ink)}
+  .prep{list-style:none}
+  .prep li{font-size:13px;line-height:1.7;padding-left:16px;position:relative}
+  .prep li::before{content:"✔";position:absolute;left:0;color:var(--accent);font-size:12px}
+
+  /* 報名入口：兩顆按鈕 */
+  .cta{margin:22px 48px 28px;background:#14213d;color:#fff;border-radius:16px;padding:22px 24px}
+  .cta h3{font-size:13px;letter-spacing:.15em;color:#fbbf24;margin-bottom:12px}
+  .cta .btns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .cta a{display:block;text-align:center;text-decoration:none;font-weight:800;font-size:17px;padding:16px 12px;border-radius:12px;line-height:1.4}
+  .cta a small{display:block;font-size:12px;font-weight:500;opacity:.8;margin-top:2px}
+  .cta a.in{background:var(--accent2);color:#14213d}
+  .cta a.out{background:#fff;color:var(--accent)}
+  .cta .foot{font-size:12px;opacity:.75;margin-top:12px}
+
+  /* 報名表單 */
+  .form{width:794px;max-width:100%;margin:18px auto 40px;background:#fff;border-radius:16px;padding:32px 48px 36px;display:none}
+  .form.show{display:block}
+  .form h2{margin-bottom:6px}
+  .form .who{display:inline-block;font-size:13px;font-weight:700;background:var(--soft);color:var(--accent);padding:4px 12px;border-radius:999px;margin-bottom:14px}
+  .form .note{font-size:13px;color:var(--muted);margin-bottom:18px}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:14px;font-weight:700;margin-bottom:6px}
+  .field label i{color:#dc2626;font-style:normal;margin-left:2px}
+  .field input,.field select,.field textarea{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}
+  .field textarea{min-height:80px;resize:vertical}
+  .field .radios{display:flex;gap:18px;flex-wrap:wrap;font-size:14px}
+  .field .radios label{font-weight:500;display:flex;align-items:center;gap:6px;margin:0}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  button{width:100%;font:inherit;font-size:17px;font-weight:800;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:14px;cursor:pointer;margin-top:6px}
+  button:disabled{opacity:.6;cursor:default}
+  .msg{margin-top:14px;font-size:15px;line-height:1.6;padding:12px 14px;border-radius:8px;display:none}
+  .msg.ok{display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+  .msg.err{display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+  .msg.warn{display:block;background:#fffbeb;color:#92400e;border:1px solid #fde68a}
+
+  @media (max-width:640px){
+    .hero{padding:32px 20px 26px} h1{font-size:32px} h1 small{font-size:16px}
+    .meta{grid-template-columns:1fr;padding:16px 20px}
+    .body{grid-template-columns:1fr;padding:22px 20px 0}
+    .cta{margin:20px 20px 24px} .cta .btns{grid-template-columns:1fr}
+    .form{padding:24px 20px 28px;border-radius:0}
+    .row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="hero">
+    <div class="kicker">數位部 AI 教育訓練 ‧ 第一堂課</div>
+    <h1>AI Agent 實戰入門<small>從觀念到 Skill 實作，打造你自己的工作流程</small></h1>
+  </div>
+
+  <div class="meta">
+    <div><b>日期</b><span>115 / 10 / 02（五）下午</span></div>
+    <div><b>時間</b><span>14:00 – 17:00</span></div>
+    <div><b>地點</b><span>明光會議室 201</span></div>
+  </div>
+
+  <div class="body">
+    <div>
+      <h2>課程大綱 <span class="ratio">實作 60%｜觀念介紹 40%</span></h2>
+      <ol>
+        <li><div><strong>名詞解釋</strong><em>MCP、RAG 等常用名詞介紹</em></div></li>
+        <li><div><strong>認識 AI Agent</strong><em>Agent 與 LLM 的差異，建立代理的概念</em></div></li>
+        <li><div><strong>安裝 Agent 桌面版與功能說明</strong><em>實作教學，桌面版本安裝與設定</em></div></li>
+        <li><div><strong>Skill 介紹與專案工作流概念</strong><em>全域設定與專案概念帶入，建立自己的工作流程</em></div></li>
+        <li><div><strong>Skill 實用操作</strong><em>常用 Skill 介紹，實際案例操作</em></div></li>
+        <li><div><strong>學校教師的 AI Agent 可能應用</strong><em>講師自身的運用／開發經驗，以及第一線老師的需求</em></div></li>
+      </ol>
+    </div>
+
+    <div class="side">
+      <div class="card">
+        <h3>講師</h3>
+        <div class="lecthead"><img class="photo" src="lecturer.jpg" alt="蕭奕鈞老師"><div class="lect">蕭奕鈞<small>奕鈞老師</small></div></div>
+        <p>嘉義市數位學習辦公室輔導員<br>國中國文教師／閱讀推動教師<br>IJUN AI 數位教學備課室創辦人，已建置 76 個教學神器</p>
+        <div class="tags">
+          <span>Gemini AI 認證講師</span><span>Google 認證教育家</span><span>iPAS AI 應用規劃師</span><span>Apple Teacher</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>課前準備</h3>
+        <ul class="prep">
+          <li>自備筆電</li>
+          <li>可登入 Gemini 的 Google 帳號</li>
+          <li>免費版額度即可完成實作</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h3>線上報名</h3>
+    <div class="btns">
+      <a class="in" href="#signup" data-who="數位部">數位部同仁請點這<small>選擇所屬科別</small></a>
+      <a class="out" href="#signup" data-who="其他單位">其他單位同仁請點這<small>填寫單位名稱</small></a>
+    </div>
+    <div class="foot">主辦：數位部　聯絡：黃浚昕</div>
+  </div>
+</div>
+
+<form class="form" id="signup" autocomplete="on">
+  <h2>報名表單</h2>
+  <div class="who" id="who"></div>
+  <p class="note">星號為必填。送出後會顯示確認訊息。</p>
+  <div class="row">
+    <div class="field"><label>姓名<i>*</i></label><input name="name" required maxlength="30"></div>
+    <div class="field"><label>Email<i>*</i></label><input name="email" type="email" required placeholder="用來寄送上課通知"></div>
+  </div>
+  <div class="field" id="f-dept">
+    <label>科別<i>*</i></label>
+    <select name="dept">
+      <option value="">請選擇</option>
+      <option>數位部</option><option>數位專案科</option><option>中高教學科</option><option>幼小教學科</option><option>雲端</option>
+    </select>
+  </div>
+  <div class="field" id="f-unit">
+    <label>單位<i>*</i></label>
+    <input name="unit" maxlength="30" placeholder="例：國小數學科">
+  </div>
+  <div class="row">
+    <div class="field"><label>是否自備筆電<i>*</i></label>
+      <div class="radios"><label><input type="radio" name="laptop" value="是" required>是</label><label><input type="radio" name="laptop" value="否">否</label></div>
+    </div>
+    <div class="field"><label>有可登入 Gemini 的 Google 帳號<i>*</i></label>
+      <div class="radios"><label><input type="radio" name="gaccount" value="有" required>有</label><label><input type="radio" name="gaccount" value="沒有">沒有</label><label><input type="radio" name="gaccount" value="不確定">不確定</label></div>
+    </div>
+  </div>
+  <div class="field"><label>想在課堂上解決的問題或期待</label><textarea name="expect" maxlength="300"></textarea></div>
+  <button type="submit" id="btn">送出報名</button>
+  <div class="msg" id="msg"></div>
+</form>
+
+<script>
+  // 報名資料送到 Google Apps Script（寫入 Google 試算表）。部署後把網址貼在這裡。
+  const GAS_URL = "";
+
+  const form = document.getElementById('signup');
+  const msg  = document.getElementById('msg');
+  const btn  = document.getElementById('btn');
+  const who  = document.getElementById('who');
+  const fDept = document.getElementById('f-dept');
+  const fUnit = document.getElementById('f-unit');
+  let group = '';
+
+  function show(kind, text){ msg.className = 'msg ' + kind; msg.textContent = text; }
+
+  // 兩顆按鈕：決定身分，顯示對應欄位
+  document.querySelectorAll('.cta a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      group = a.dataset.who;
+      who.textContent = group + '同仁';
+      fDept.style.display = group === '數位部' ? '' : 'none';
+      fUnit.style.display = group === '其他單位' ? '' : 'none';
+      form.dept.required = group === '數位部';
+      form.unit.required = group === '其他單位';
+      form.classList.add('show');
+      msg.className = 'msg';
+      if(!GAS_URL){ show('warn', '報名功能尚未開放，請稍後再試。'); btn.disabled = true; }
+      form.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.group = group;
+    btn.disabled = true; btn.textContent = '送出中…';
+    try{
+      const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify(data) });
+      const out = await res.json();
+      if(out.ok){ show('ok', '報名成功！' + data.name + ' 已完成登記，10/2（五）14:00 明光會議室 201 見。'); form.reset(); btn.textContent = '已送出'; }
+      else{ throw new Error(out.error || '未知錯誤'); }
+    }catch(err){
+      show('err', '送出失敗，請再試一次或直接聯絡黃浚昕。（' + err.message + '）');
+      btn.disabled = false; btn.textContent = '送出報名';
+    }
+  });
+</script>
+</body>
+</html>
